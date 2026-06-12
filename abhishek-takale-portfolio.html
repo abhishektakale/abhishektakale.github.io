@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhishek Takale — Senior Backend Engineer · Golang · Distributed Systems</title>
+<meta name="description" content="Senior Backend Engineer — Golang, gRPC, Kubernetes, distributed systems & blockchain infrastructure at NPCI. 5+ years building the invisible systems that move money.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Zilla+Slab:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   abhishek.dev — single-file portfolio
+   theme: a tmux session that got ambitious
+   ============================================================ */
+:root{
+  --bg0:#0B0F14;
+  --bg1:#0F151D;
+  --panel:#121A24;
+  --panel2:#0E141C;
+  --line:#1E2A38;
+  --line2:#27374A;
+  --fg:#DEE8F1;
+  --mut:#8A99A8;
+  --dim:#5C6B7A;
+  --ok:#7CE38B;
+  --warn:#E5C07B;
+  --err:#FF7A7A;
+  --hash:#B58CF2;
+  /* go mode (default) */
+  --acc:#00ADD8;
+  --acc2:#6FD9F2;
+  --accDim:rgba(0,173,216,.13);
+  --accGlow:rgba(0,173,216,.35);
+  --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --slab:'Zilla Slab', Rockwell, 'Roboto Slab', Georgia, serif;
+}
+body.race{
+  --acc:#F75023;
+  --acc2:#FFA463;
+  --accDim:rgba(247,80,35,.13);
+  --accGlow:rgba(247,80,35,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(1200px 600px at 80% -10%, var(--accDim), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgba(181,140,242,.06), transparent 55%),
+    var(--bg0);
+  color:var(--fg);
+  font-family:var(--mono);
+  font-size:15px;
+  line-height:1.65;
+  transition:background .5s ease;
+  overflow-x:hidden;
+}
+::selection{background:var(--acc);color:var(--bg0)}
+a{color:var(--acc2);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:var(--mono);cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:3px}
+
+/* subtle CRT texture */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9;
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px);
+  mix-blend-mode:overlay;
+}
+
+/* ---------- topbar (window chrome) ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:14px;
+  padding:10px 18px;
+  background:rgba(11,15,20,.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.dots{display:flex;gap:7px;flex:0 0 auto}
+.dots i{width:11px;height:11px;border-radius:50%;display:block}
+.dots i:nth-child(1){background:#FF5F57}.dots i:nth-child(2){background:#FEBC2E}.dots i:nth-child(3){background:#28C840}
+.tb-title{color:var(--mut);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-title b{color:var(--fg);font-weight:500}
+.tb-nav{margin-left:auto;display:flex;gap:16px;font-size:12.5px}
+.tb-nav a{color:var(--mut)}
+.tb-nav a:hover{color:var(--acc2);text-decoration:none}
+.tb-nav a::before{content:"./";color:var(--dim)}
+
+/* compiler toggle */
+.toggle{
+  display:flex;border:1px solid var(--line2);border-radius:7px;overflow:hidden;flex:0 0 auto;
+}
+.toggle button{
+  background:transparent;border:0;color:var(--mut);
+  font-size:12px;padding:5px 12px;transition:all .25s;
+}
+.toggle button.on{background:var(--accDim);color:var(--acc2);font-weight:700}
+.toggle button:not(.on):hover{color:var(--fg)}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+section{padding:74px 0 10px}
+.eyebrow{
+  color:var(--dim);font-size:13px;margin-bottom:10px;letter-spacing:.4px;
+}
+.eyebrow b{color:var(--acc);font-weight:500}
+h2{
+  font-family:var(--slab);font-weight:700;font-size:clamp(26px,4vw,38px);
+  letter-spacing:.2px;margin-bottom:8px;
+}
+.sub{color:var(--mut);max-width:640px;margin-bottom:30px}
+.sub code{color:var(--acc2);background:var(--accDim);padding:1px 6px;border-radius:4px;font-size:13px}
+
+/* ---------- HERO ---------- */
+.hero{padding:54px 0 30px}
+.term{
+  background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);
+  border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 22px 60px -18px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.02) inset;
+  overflow:hidden;
+}
+.term-head{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border-bottom:1px solid var(--line);background:rgba(255,255,255,.02);
+}
+.term-head .tab{
+  font-size:11.5px;color:var(--mut);padding:3px 10px;border-radius:5px;background:rgba(255,255,255,.04);
+}
+.term-head .tab.live{color:var(--ok)}
+.term-head .tab.live::before{content:"● ";font-size:9px}
+.term-body{
+  padding:18px 20px 16px;min-height:340px;max-height:440px;overflow-y:auto;
+  font-size:13.5px;line-height:1.7;
+}
+.term-body::-webkit-scrollbar{width:9px}
+.term-body::-webkit-scrollbar-thumb{background:var(--line2);border-radius:9px}
+.tl{white-space:pre-wrap;word-break:break-word}
+.tl .p{color:var(--acc)}        /* prompt */
+.tl .ok{color:var(--ok)}
+.tl .warn{color:var(--warn)}
+.tl .err{color:var(--err)}
+.tl .dim{color:var(--dim)}
+.tl .mut{color:var(--mut)}
+.tl .hl{color:var(--acc2)}
+.tl .hash{color:var(--hash)}
+.term-in-row{display:flex;gap:8px;align-items:baseline;padding:0 20px 16px}
+.term-in-row .p{color:var(--acc);font-size:13.5px;flex:0 0 auto}
+#cmd{
+  flex:1;background:transparent;border:0;color:var(--fg);
+  font-family:var(--mono);font-size:13.5px;caret-color:var(--acc);
+}
+#cmd:focus{outline:none}
+.cursor{display:inline-block;width:8px;height:15px;background:var(--acc);vertical-align:text-bottom;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.thesis{margin:42px 0 8px}
+.thesis h1{
+  font-family:var(--slab);font-weight:700;
+  font-size:clamp(34px,6.2vw,62px);line-height:1.08;letter-spacing:.2px;
+  max-width:880px;
+}
+.thesis h1 em{font-style:normal;color:var(--acc);position:relative}
+.thesis h1 em::after{
+  content:"";position:absolute;left:0;right:0;bottom:4px;height:10px;
+  background:var(--accDim);z-index:-1;border-radius:2px;
+}
+.thesis .tagline{color:var(--mut);margin-top:14px;font-size:15px;max-width:660px}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.chip{
+  font-size:12.5px;color:var(--acc2);background:var(--accDim);
+  border:1px solid color-mix(in srgb, var(--acc) 35%, transparent);
+  padding:4px 12px;border-radius:999px;transition:transform .15s;
+}
+.chip:hover{transform:translateY(-2px)}
+.hero-cta{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.btn{
+  border:1px solid var(--line2);background:var(--panel);color:var(--fg);
+  padding:9px 18px;border-radius:8px;font-size:13px;transition:all .2s;
+}
+.btn:hover{border-color:var(--acc);color:var(--acc2);transform:translateY(-1px)}
+.btn.solid{background:var(--acc);color:#04141A;border-color:var(--acc);font-weight:700}
+.btn.solid:hover{filter:brightness(1.12);color:#04141A}
+
+/* ---------- stats strip (htop vibes) ---------- */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px;
+}
+.stat{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;font-size:12.5px;transition:border-color .25s;
+}
+.stat:hover{border-color:var(--line2)}
+.stat .k{color:var(--dim);display:block;margin-bottom:6px}
+.stat .k::before{content:"$ ";color:var(--acc)}
+.stat .v{color:var(--fg)}
+.stat .v .ok{color:var(--ok)}.stat .v .warn{color:var(--warn)}
+
+/* ---------- skills: go test ---------- */
+.testbox{
+  background:var(--panel2);border:1px solid var(--line);border-radius:12px;overflow:hidden;
+}
+.test-head{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 18px;border-bottom:1px solid var(--line);
+}
+.test-head code{color:var(--mut);font-size:13px}
+.test-head code b{color:var(--acc2);font-weight:500}
+#runTests{
+  background:var(--acc);border:0;color:#04141A;font-weight:700;font-size:12.5px;
+  padding:7px 16px;border-radius:7px;transition:filter .2s;
+}
+#runTests:hover{filter:brightness(1.12)}
+#runTests:disabled{opacity:.45;cursor:wait}
+.tests{padding:8px 0 14px}
+.trow{
+  display:grid;grid-template-columns:96px 1fr 220px 64px;gap:14px;align-items:center;
+  padding:9px 20px;font-size:13px;border-bottom:1px dashed rgba(255,255,255,.04);
+}
+.trow:last-child{border-bottom:0}
+.trow .st{color:var(--dim)}
+.trow.pass .st{color:var(--ok);font-weight:700}
+.trow.fail .st{color:var(--err);font-weight:700}
+.trow.flaky .st{color:var(--warn);font-weight:700}
+.trow .nm{color:var(--fg)}
+.trow .nm small{display:block;color:var(--mut);font-size:11.5px;margin-top:1px}
+.bar{height:7px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden}
+.bar i{
+  display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--acc),var(--acc2));
+  transition:width .9s cubic-bezier(.22,1,.36,1);
+}
+.trow .tm{color:var(--dim);font-size:12px;text-align:right}
+.test-foot{padding:12px 20px;border-top:1px solid var(--line);font-size:13px;color:var(--dim)}
+.test-foot .ok{color:var(--ok)}
+
+/* ---------- experience: git log ---------- */
+.gitlog{position:relative;padding-left:34px}
+.gitlog::before{
+  content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;
+  background:linear-gradient(180deg,var(--acc),var(--line2));
+  border-radius:2px;
+}
+.commit{position:relative;padding:0 0 38px}
+.commit:last-child{padding-bottom:6px}
+.commit::before{
+  content:"";position:absolute;left:-29px;top:7px;width:12px;height:12px;border-radius:50%;
+  background:var(--bg0);border:3px solid var(--acc);
+  box-shadow:0 0 0 4px var(--accDim);
+}
+.commit.past::before{border-color:var(--line2);box-shadow:none}
+.c-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12.5px;margin-bottom:7px}
+.c-hash{color:var(--hash)}
+.c-ref{
+  font-size:11px;padding:2px 9px;border-radius:999px;
+  border:1px solid color-mix(in srgb, var(--acc) 40%, transparent);
+  color:var(--acc2);background:var(--accDim);
+}
+.c-ref.head{background:var(--acc);color:#04141A;border-color:var(--acc);font-weight:700}
+.c-when{color:var(--dim);margin-left:auto}
+.c-msg{font-family:var(--slab);font-size:21px;font-weight:700;letter-spacing:.2px}
+.c-msg .type{color:var(--acc)}
+.c-body{color:var(--mut);margin-top:7px;max-width:680px;font-size:14px}
+.c-stats{margin-top:9px;font-size:12px;color:var(--dim)}
+.c-stats .plus{color:var(--ok)}.c-stats .minus{color:var(--err)}
+
+/* ---------- projects ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:20px;display:flex;flex-direction:column;gap:11px;
+  transition:transform .2s, border-color .2s, box-shadow .2s;position:relative;overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--acc),transparent);
+  opacity:0;transition:opacity .25s;
+}
+.card:hover{transform:translateY(-4px);border-color:var(--line2);box-shadow:0 18px 40px -20px rgba(0,0,0,.8)}
+.card:hover::before{opacity:1}
+.card .repo{display:flex;align-items:center;gap:8px;font-size:14.5px}
+.card .repo .ic{color:var(--dim)}
+.card .repo b{color:var(--acc2);font-weight:500}
+.card p{color:var(--mut);font-size:13px;flex:1}
+.card .meta{display:flex;flex-wrap:wrap;gap:7px;font-size:11px}
+.card .meta span{color:var(--dim);border:1px solid var(--line);padding:2px 9px;border-radius:999px}
+.card .lang{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut)}
+.card .lang i{width:9px;height:9px;border-radius:50%;background:var(--acc)}
+
+/* ---------- KV cluster demo ---------- */
+.kv{
+  margin-top:26px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden;
+}
+.kv-head{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:13px 18px;border-bottom:1px solid var(--line);
+}
+.kv-head .t{font-size:13px;color:var(--mut)}
+.kv-head .t b{color:var(--acc2);font-weight:500}
+.kv-ctl{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}
+.kv-ctl button{
+  background:transparent;border:1px solid var(--line2);color:var(--mut);
+  font-size:12px;padding:6px 13px;border-radius:7px;transition:all .2s;
+}
+.kv-ctl button:hover{color:var(--err);border-color:var(--err)}
+.kv-ctl button.revive:hover{color:var(--ok);border-color:var(--ok)}
+.nodes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:20px}
+.node{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:14px;min-height:150px;transition:all .35s;position:relative;
+}
+.node.leader{border-color:var(--acc);box-shadow:0 0 24px -6px var(--accGlow)}
+.node.dead{opacity:.4;filter:grayscale(.9);border-style:dashed}
+.node.pulse{animation:npulse .6s ease}
+@keyframes npulse{0%{box-shadow:0 0 0 0 var(--accGlow)}100%{box-shadow:0 0 0 16px transparent}}
+.n-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px}
+.n-head .id{color:var(--fg);font-weight:700}
+.n-role{
+  font-size:10.5px;padding:2px 8px;border-radius:999px;margin-left:auto;
+  border:1px solid var(--line2);color:var(--dim);text-transform:uppercase;letter-spacing:.6px;
+}
+.node.leader .n-role{background:var(--acc);color:#04141A;border-color:var(--acc);font-weight:700}
+.node.dead .n-role{color:var(--err);border-color:var(--err)}
+.n-data{font-size:12px;display:flex;flex-direction:column;gap:4px}
+.n-data .kvrow{display:flex;gap:8px;animation:fadein .4s ease}
+.n-data .kvrow .k{color:var(--acc2)}
+.n-data .kvrow .v{color:var(--mut)}
+.n-data .empty{color:var(--dim);font-style:italic}
+@keyframes fadein{from{opacity:0;transform:translateY(-3px)}to{opacity:1}}
+.kv-input{display:flex;gap:10px;align-items:baseline;padding:0 20px 6px}
+.kv-input .p{color:var(--acc);font-size:13px}
+#kvcmd{
+  flex:1;background:transparent;border:0;border-bottom:1px dashed var(--line2);
+  color:var(--fg);font-family:var(--mono);font-size:13px;padding:4px 2px;
+}
+#kvcmd:focus{outline:none;border-bottom-color:var(--acc)}
+.kv-log{
+  margin:10px 20px 18px;max-height:120px;overflow-y:auto;
+  font-size:12px;color:var(--mut);line-height:1.7;
+  background:rgba(0,0,0,.22);border-radius:8px;padding:10px 14px;
+}
+.kv-log .ok{color:var(--ok)}.kv-log .err{color:var(--err)}.kv-log .warn{color:var(--warn)}.kv-log .hl{color:var(--acc2)}
+
+/* ---------- contact ---------- */
+.curl{
+  background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+  padding:22px 24px;font-size:13.5px;line-height:1.9;overflow-x:auto;
+}
+.curl .p{color:var(--acc)}.curl .flag{color:var(--warn)}.curl .str{color:var(--ok)}.curl .dim{color:var(--dim)}
+.contact-btns{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+
+/* ---------- footer ---------- */
+footer{
+  margin-top:80px;border-top:1px solid var(--line);
+  padding:26px 0 40px;color:var(--dim);font-size:12.5px;
+}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+kbd{
+  background:var(--panel);border:1px solid var(--line2);border-bottom-width:2px;
+  border-radius:5px;padding:1px 6px;font-size:11px;color:var(--mut);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:880px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr}
+  .trow{grid-template-columns:74px 1fr 70px;gap:10px}
+  .trow .bar{display:none}
+  .tb-nav{display:none}
+}
+@media (max-width:680px){
+  .nodes{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .term-body{min-height:280px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+  html{scroll-behavior:auto}
+  body::after{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ window chrome ════════ -->
+<header class="topbar">
+  <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="tb-title"><b>abhishek@npci</b>: ~/portfolio — tmux</div>
+  <nav class="tb-nav">
+    <a href="#skills">skills</a>
+    <a href="#work">work</a>
+    <a href="#projects">projects</a>
+    <a href="#contact">contact</a>
+  </nav>
+  <div class="toggle" role="group" aria-label="Theme compiler">
+    <button id="goBtn" class="on" aria-pressed="true">go build</button>
+    <button id="raceBtn" aria-pressed="false">go build -race</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ════════ HERO ════════ -->
+  <section class="hero" id="top">
+    <div class="term" id="termBox">
+      <div class="term-head">
+        <span class="tab live">abhishek.service</span>
+        <span class="tab">zsh</span>
+        <span class="tab" style="margin-left:auto">utf-8 · 256color</span>
+      </div>
+      <div class="term-body" id="termOut" aria-live="polite"></div>
+      <div class="term-in-row">
+        <span class="p" id="promptLabel">abhishek@npci:~$</span>
+        <input id="cmd" type="text" autocomplete="off" spellcheck="false"
+               aria-label="Terminal input. Type help and press enter."
+               placeholder="type `help` and press enter…">
+      </div>
+    </div>
+
+    <div class="thesis">
+      <h1>I build the <em>boring, invisible systems</em> that move money.</h1>
+      <p class="tagline">Abhishek Takale — Senior Backend Engineer at <a href="https://www.npci.org.in" target="_blank" rel="noopener">NPCI</a>, previously Chainworks Digital. 5+ years of Golang, distributed systems and blockchain infrastructure. I like my services concurrent, my databases replicated, and my deploys uneventful.</p>
+      <div class="chips" id="chips">
+        <span class="chip">Golang</span><span class="chip">gRPC</span><span class="chip">Distributed Systems</span>
+        <span class="chip">Kubernetes</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span>
+        <span class="chip">Hyperledger Fabric</span><span class="chip">OpenTelemetry</span>
+        <span class="chip">React.js</span><span class="chip">Node.js</span>
+      </div>
+      <div class="hero-cta">
+        <button class="btn solid" data-cmd="sudo hire-me">$ sudo hire-me</button>
+        <button class="btn" data-cmd="cat resume.txt">$ cat resume.txt</button>
+        <button class="btn" data-cmd="neofetch">$ neofetch</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span class="k">uptime</span><span class="v">5+ yrs in production, <span class="ok">0 existential crashes</span></span></div>
+      <div class="stat"><span class="k">ps aux | grep stack</span><span class="v">go <span class="ok">✓</span> grpc <span class="ok">✓</span> k8s <span class="ok">✓</span> node <span class="ok">✓</span></span></div>
+      <div class="stat"><span class="k">free -h</span><span class="v">node_modules eating <span class="warn">97%</span> of disk, as is tradition</span></div>
+      <div class="stat"><span class="k">ping mumbai</span><span class="v">64 bytes · time=<span class="ok">0.4ms</span> · on the payment rails</span></div>
+    </div>
+  </section>
+
+  <!-- ════════ SKILLS ════════ -->
+  <section id="skills">
+    <p class="eyebrow"><b>~/skills</b> — verified, not vibes</p>
+    <h2>The test suite doesn't lie.</h2>
+    <p class="sub">Anyone can list buzzwords. I'd rather run the suite. Hit <code>RUN</code> — or type <code>go test ./...</code> in the terminal above.</p>
+
+    <div class="testbox">
+      <div class="test-head">
+        <code>$ <b id="testCmdLabel">go test ./skills/... -v</b></code>
+        <button id="runTests">▶ RUN</button>
+      </div>
+      <div class="tests" id="testRows"></div>
+      <div class="test-foot" id="testFoot">— idle. tests not yet run. confidence unverified.</div>
+    </div>
+  </section>
+
+  <!-- ════════ EXPERIENCE ════════ -->
+  <section id="work">
+    <p class="eyebrow"><b>~/experience</b> — git log --graph --decorate</p>
+    <h2>Career, version-controlled.</h2>
+    <p class="sub">Every role is a commit. No force-pushes, no rewritten history.</p>
+    <div class="gitlog" id="gitlog"></div>
+  </section>
+
+  <!-- ════════ PROJECTS ════════ -->
+  <section id="projects">
+    <p class="eyebrow"><b>~/projects</b> — ls -la --sort=pride</p>
+    <h2>Things I've shipped.</h2>
+    <p class="sub">Including one you can break right here on this page. Go on, kill the leader. See what happens.</p>
+
+    <div class="cards" id="cards"></div>
+
+    <div class="kv" id="kvdemo">
+      <div class="kv-head">
+        <span class="t">live demo · <b>distributed-kv-store</b> — multi-raft mini cluster: election · replication · fault tolerance</span>
+        <div class="kv-ctl">
+          <button id="killLeader">⚡ kill the leader</button>
+          <button id="reviveAll" class="revive">↻ revive cluster</button>
+        </div>
+      </div>
+      <div class="nodes" id="nodes"></div>
+      <div class="kv-input">
+        <span class="p">kv&gt;</span>
+        <input id="kvcmd" type="text" autocomplete="off" spellcheck="false"
+               aria-label="KV store command input"
+               placeholder='try: SET lang go · GET lang · DEL lang'>
+      </div>
+      <div class="kv-log" id="kvlog"></div>
+    </div>
+  </section>
+
+  <!-- ════════ CONTACT ════════ -->
+  <section id="contact">
+    <p class="eyebrow"><b>~/contact</b> — the API is open</p>
+    <h2>Send a request. I respond fast.</h2>
+    <p class="sub">Interesting problems in payments, distributed systems, or blockchain infrastructure get priority in the queue.</p>
+
+    <div class="curl">
+<span class="p">$</span> curl -X POST https://abhishek.dev/api/v1/contact <span class="dim">\</span><br>
+&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> <span class="dim">\</span><br>
+&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{ "role": "something interesting", "coffee": true }'</span><br>
+<br>
+<span class="dim">HTTP/2 200 OK</span><br>
+{<br>
+&nbsp;&nbsp;"email": <span class="str">"abhishek.takale1995@gmail.com"</span>,<br>
+&nbsp;&nbsp;"phone": <span class="str">"+91 99674 89881"</span>,<br>
+&nbsp;&nbsp;"github": <span class="str">"github.com/abhishektakale"</span>,<br>
+&nbsp;&nbsp;"status": <span class="str">"open to interesting problems"</span>, "responds_in": <span class="str">"&lt; 24h"</span><br>
+}
+    </div>
+
+    <div class="contact-btns">
+      <a class="btn solid" href="mailto:abhishek.takale1995@gmail.com" id="emailBtn">→ Email me</a>
+      <a class="btn" href="https://www.linkedin.com/in/abhishektakale" target="_blank" rel="noopener">→ LinkedIn</a>
+      <a class="btn" href="https://github.com/abhishektakale" id="ghBtn" target="_blank" rel="noopener">→ GitHub</a>
+      <a class="btn" href="tel:+919967489881">→ +91 99674 89881</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Abhishek Takale · one HTML file · zero frameworks · 100% artisanal free-range divs</span>
+    <span>psst — try <kbd>sudo rm -rf /</kbd> or <kbd>vim</kbd> in the terminal</span>
+  </div>
+</footer>
+<script>
+/* ============================================================
+   contact links (from CV)
+   ============================================================ */
+const CONFIG = {
+  name: "Abhishek Takale",
+  linkedin: "https://www.linkedin.com/in/abhishektakale",
+  email: "abhishek.takale1995@gmail.com",
+  github: "https://github.com/abhishektakale",
+  phone: "+91 9967489881",
+};
+document.getElementById('emailBtn').href = "mailto:" + CONFIG.email;
+document.getElementById('ghBtn').href = CONFIG.github;
+
+const RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+const $ = s => document.querySelector(s);
+const sleep = ms => new Promise(r => setTimeout(r, RM ? 0 : ms));
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+/* ============================================================
+   1 · TERMINAL
+   ============================================================ */
+const out = $('#termOut'), cmdIn = $('#cmd');
+let vimMode = false, history = [], histIdx = -1;
+
+function print(html, cls=''){ 
+  const d = document.createElement('div');
+  d.className = 'tl ' + cls; d.innerHTML = html;
+  out.appendChild(d); out.scrollTop = out.scrollHeight;
+  return d;
+}
+async function typeLine(html, cls='', cps=14){
+  if (RM){ print(html, cls); return; }
+  const d = print('', cls);
+  // type plain text, then swap in styled html
+  const tmp = document.createElement('div'); tmp.innerHTML = html;
+  const txt = tmp.textContent;
+  for (let i=0;i<=txt.length;i+=2){
+    d.textContent = txt.slice(0,i);
+    out.scrollTop = out.scrollHeight;
+    await sleep(cps);
+  }
+  d.innerHTML = html;
+}
+function echo(c){ print(`<span class="p">abhishek@npci:~$</span> ${esc(c)}`); }
+
+/* ---------- boot sequence ---------- */
+async function boot(){
+  await sleep(350);
+  await typeLine(`<span class="dim">[boot]</span> abhishek.service v6.1.2 — initializing…`,'',6);
+  await sleep(120);
+  print(`<span class="ok">[ ok ]</span> mounting <span class="hl">/dev/golang</span> <span class="dim">… goroutines hot</span>`);
+  await sleep(160);
+  print(`<span class="ok">[ ok ]</span> starting <span class="hl">grpc-gateway</span> <span class="dim">… serving :8080 (HTTP) and :9090 (gRPC), choosing is for other people</span>`);
+  await sleep(160);
+  print(`<span class="ok">[ ok ]</span> hydrating <span class="hl">react</span> components <span class="dim">(only the necessary ones)</span>`);
+  await sleep(160);
+  print(`<span class="ok">[ ok ]</span> connecting to payment rails <span class="dim">…</span> <span class="ok">200 OK</span>`);
+  await sleep(220);
+  print(`<span class="dim">started in</span> <span class="ok">0.42s</span> <span class="dim">— it's compiled, what did you expect</span>`);
+  print(`&nbsp;`);
+  await typeLine(`Welcome. Type <span class="hl">help</span> for commands — or scroll like a normal person.`,'',8);
+}
+
+/* ---------- command registry ---------- */
+const scrollTo = id => document.getElementById(id).scrollIntoView({behavior: RM?'auto':'smooth'});
+
+const COMMANDS = {
+  help(){
+    print(
+`<span class="hl">available commands</span>
+  <span class="ok">whoami</span>        who is this guy
+  <span class="ok">skills</span>        run the skill test suite
+  <span class="ok">work</span>          career as a git log
+  <span class="ok">projects</span>      things I've shipped
+  <span class="ok">contact</span>       open the API
+  <span class="ok">cat resume.txt</span> the short version
+  <span class="ok">neofetch</span>      system info + mascot
+  <span class="ok">ls</span> / <span class="ok">clear</span> / <span class="ok">exit</span>   the classics
+  <span class="dim">…and a few undocumented ones. you know what to do.</span>`);
+  },
+  whoami(){
+    print(
+`<span class="hl">${CONFIG.name}</span> — Senior Backend Engineer · Golang · Distributed Systems
+Senior Associate (Blockchain) @ <span class="ok">NPCI</span> since Jul 2023 — Golang services on India's
+payment rails, core contributor to an in-house distributed database engine, leading 4 engineers.
+Before that: 4 years at <span class="ok">Chainworks Digital</span> (Associate → Senior Software Engineer).
+5+ years of gRPC, Kubernetes, PostgreSQL, Redis and making bottlenecks regret existing.`);
+  },
+  skills(){ print(`<span class="dim">cd ~/skills && go test ./... </span>`); scrollTo('skills'); setTimeout(()=>runTests(), RM?0:600); },
+  work(){ print(`<span class="dim">git log --graph --decorate</span>`); scrollTo('work'); },
+  experience(){ COMMANDS.work(); },
+  projects(){ print(`<span class="dim">ls ~/projects --sort=pride</span>`); scrollTo('projects'); },
+  contact(){ print(`<span class="dim">opening API docs…</span>`); scrollTo('contact'); },
+  clear(){ out.innerHTML=''; },
+  ls(){
+    print(`<span class="hl">skills/</span>  <span class="hl">projects/</span>  <span class="hl">experience/</span>  <span class="hl">contact/</span>  resume.txt  <span class="err">secrets/</span> <span class="dim">(permission denied)</span>`);
+  },
+  neofetch(){
+    const race = document.body.classList.contains('race');
+    const art = race ? `<span class="warn">ʕ•̀ϖ•́ʔ</span>  <span class="dim">← the gopher, race detector armed</span>` 
+                     : `<span class="hl">ʕ◔ϖ◔ʔ</span>  <span class="dim">← the gopher approves</span>`;
+    print(
+`${art}
+<span class="hl">OS</span>:        production, mostly
+<span class="hl">Host</span>:      NPCI, Mumbai — the payment rails
+<span class="hl">Shell</span>:     zsh (with 47 aliases I forgot writing)
+<span class="hl">Compiler</span>:  go ${race ? '-race — slower, paranoid, worth it' : '— done before you blink'}
+<span class="hl">Storage</span>:   postgres for truth · redis for speed · badger for engines
+<span class="hl">Uptime</span>:    5+ years of prod traffic, ${race ? 'zero data races detected' : 'zero drama (thanks gofmt)'}
+<span class="hl">Theme</span>:     ${race ? 'race-warning orange ⚡' : 'gopher cyan'}`);
+  },
+  exit(){ print(`<span class="err">exit:</span> nice try. you're staying. there are easter eggs left.`); },
+  coffee(){ print(`<span class="warn">☕ brewing…</span> done. productivity <span class="ok">+20%</span>, jitter <span class="err">+400%</span>. worth it.`); },
+  vim(){
+    vimMode = true;
+    $('#promptLabel').textContent = '-- INSERT --';
+    print(`<span class="warn">entering vim.</span> good luck. <span class="dim">(hint: it's :q!)</span>`);
+  },
+  "go"(args){
+    if (args[0]==='version') print(`go version go1.24 linux/amd64 <span class="dim">— compiles faster than you can alt-tab</span>`);
+    else if (args[0]==='test'){ COMMANDS.skills(); }
+    else if (args[0]==='build'){ setTheme(args.includes('-race')); }
+    else print(`go: ship it.`);
+  },
+  cargo(){ print(`zsh: command not found: cargo <span class="dim">— this is a Go household. (try</span> <span class="hl">go build -race</span> <span class="dim">instead)</span>`); },
+  rustc(){ COMMANDS.cargo(); },
+  shorty(args){
+    const url = args[0];
+    if (!url){ print(`usage: <span class="hl">shorty &lt;url&gt;</span> <span class="dim">— low-latency since 2022</span>`); return; }
+    const code = Math.random().toString(36).slice(2,8);
+    print(`<span class="ok">✂</span> ${esc(url)} → <span class="hl">https://sho.rt/${code}</span> <span class="dim">(simulated — the real one ran on Go + Redis)</span>`);
+  },
+  "cat"(args){
+    if ((args[0]||'').startsWith('resume')){
+      print(
+`<span class="hl">═══ resume.txt ═══</span>
+<span class="ok">NOW</span>   NPCI — Senior Associate, Blockchain <span class="dim">(Jul 2023 → present)</span>
+      Production Golang for blockchain &amp; payment infra · in-house distributed
+      database engine (leading 4 engineers) · gRPC-Gateway dual protocol, −50% dev effort
+<span class="ok">PREV</span>  Chainworks Digital — Senior Software Engineer <span class="dim">(Jan 2023 → Jul 2023)</span>
+      Distributed backends &amp; blockchain in Go, deployed at NPCI · led Tracksoft,
+      HeftNft, FAW Token Platform, Ejoining Portal · Go / React.js / Node.js components
+<span class="ok">PREV</span>  Chainworks Digital — Associate SDE <span class="dim">(Jul 2019 → Jan 2023)</span>
+      Enterprise backends: MahaAayudaan, Tracksoft · APIs &amp; distributed components
+<span class="ok">EDU</span>   B.E. Computer Engineering, Mumbai University <span class="dim">(2014–2019)</span> · Diploma, MSBTE <span class="dim">(2011–2014)</span>
+<span class="ok">STACK</span> Go · gRPC · Gin · K8s · PostgreSQL · Redis · BadgerDB · Etcd · Fabric · OTel · Jaeger
+<span class="dim">full version →</span> <a href="${CONFIG.linkedin}" target="_blank" rel="noopener">LinkedIn</a> <span class="dim">·</span> <a href="${CONFIG.github}" target="_blank" rel="noopener">GitHub</a>`);
+    } else if ((args[0]||'').includes('secret')){
+      print(`<span class="err">cat: secrets/: permission denied.</span> <span class="dim">the private keys stay private. obviously.</span>`);
+    } else print(`cat: ${esc(args[0]||'')}: no such file. try <span class="hl">cat resume.txt</span>`);
+  },
+  sudo(args){
+    const rest = args.join(' ');
+    if (rest === 'hire-me'){
+      print(`<span class="dim">[sudo] password for recruiter:</span> ••••••••`);
+      print(`<span class="ok">access granted.</span> excellent decision. → <a href="${CONFIG.linkedin}" target="_blank" rel="noopener">open LinkedIn</a> · <a href="mailto:${CONFIG.email}">send email</a>`);
+    } else if (rest.replace(/\s+/g,' ').startsWith('rm -rf /')){
+      return nukeSequence();
+    } else if (rest === 'make me a sandwich'){
+      print(`<span class="ok">okay.</span> 🥪 <span class="dim">(xkcd 149 compliance achieved)</span>`);
+    } else {
+      print(`<span class="err">sudo:</span> ${esc(rest||'?')}: not in the sudoers file. this incident will be reported <span class="dim">(to no one)</span>.`);
+    }
+  },
+  rm(args){
+    if (args.join(' ').includes('-rf')) return nukeSequence();
+    print(`rm: refusing to delete. everything here is load-bearing.`);
+  },
+  whois(){ COMMANDS.whoami(); },
+  pwd(){ print(`/home/abhishek/portfolio <span class="dim">— you are here</span>`); },
+  echo(args){ print(esc(args.join(' ')) || '&nbsp;'); },
+  hire(){ COMMANDS.sudo(['hire-me']); },
+  "hire-me"(){ COMMANDS.sudo(['hire-me']); },
+};
+
+async function nukeSequence(){
+  cmdIn.disabled = true;
+  const dirs = ['/usr','/var','/etc','/home','/opt','~/hopes','~/dreams','portfolio.html'];
+  for (const d of dirs){
+    print(`<span class="err">removing ${d} …</span>`);
+    await sleep(170);
+  }
+  await sleep(450);
+  print(`&nbsp;`);
+  print(`<span class="ok">just kidding.</span> this portfolio is immutable — it's on the blockchain.<span class="dim">*</span>`);
+  print(`<span class="dim">*it is not on the blockchain. but I do know how to put it there.</span>`);
+  cmdIn.disabled = false; cmdIn.focus();
+}
+
+function runCommand(raw){
+  const c = raw.trim();
+  if (!c) return;
+  history.push(c); histIdx = history.length;
+
+  if (vimMode){
+    echo(c);
+    if (c === ':q!' || c === ':q' || c === ':wq'){
+      vimMode = false;
+      $('#promptLabel').textContent = 'abhishek@npci:~$';
+      print(`<span class="ok">you escaped vim.</span> add it to the resume.`);
+    } else {
+      print(`<span class="err">E492: not an editor command:</span> ${esc(c)} <span class="dim">— the only way out is :q!</span>`);
+    }
+    return;
+  }
+
+  echo(c);
+  const parts = c.split(/\s+/);
+  const name = parts[0].toLowerCase();
+  const fn = COMMANDS[name] || (name==='cat' && COMMANDS.cat);
+  if (fn) fn(parts.slice(1));
+  else if (c.toLowerCase()==='cat resume.txt') COMMANDS.cat(['resume.txt']);
+  else print(`zsh: command not found: <span class="err">${esc(name)}</span> <span class="dim">— did you mean</span> <span class="hl">hire-me</span><span class="dim">?</span>`);
+}
+
+cmdIn.addEventListener('keydown', e=>{
+  if (e.key==='Enter'){ runCommand(cmdIn.value); cmdIn.value=''; }
+  else if (e.key==='ArrowUp'){ if(histIdx>0){histIdx--; cmdIn.value=history[histIdx]||''; e.preventDefault();} }
+  else if (e.key==='ArrowDown'){ if(histIdx<history.length){histIdx++; cmdIn.value=history[histIdx]||'';} }
+});
+$('#termBox').addEventListener('click', ()=> cmdIn.focus());
+document.querySelectorAll('[data-cmd]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.getElementById('top').scrollIntoView({behavior: RM?'auto':'smooth'});
+    setTimeout(()=>{ runCommand(b.dataset.cmd); cmdIn.focus(); }, RM?0:350);
+  });
+});
+
+/* ============================================================
+   2 · THEME TOGGLE (go ↔ cargo)
+   ============================================================ */
+const goBtn = $('#goBtn'), raceBtn = $('#raceBtn');
+function setTheme(race){
+  document.body.classList.toggle('race', race);
+  goBtn.classList.toggle('on', !race); raceBtn.classList.toggle('on', race);
+  goBtn.setAttribute('aria-pressed', String(!race));
+  raceBtn.setAttribute('aria-pressed', String(race));
+  $('#testCmdLabel').textContent = race ? 'go test -race ./skills/... -v' : 'go test ./skills/... -v';
+  print(race
+    ? `<span class="dim">$ go build -race ./...</span>  <span class="warn">WARNING: DATA RACE</span> <span class="dim">…just kidding.</span> <span class="ok">channels everywhere, mutexes where it counts.</span> <span class="dim">done in 0.9s — race builds are slower, it's fine</span>`
+    : `<span class="dim">$ go build ./...</span>  <span class="ok">done in 0.3s</span> <span class="dim">(go things)</span>`);
+}
+goBtn.addEventListener('click', ()=> setTheme(false));
+raceBtn.addEventListener('click', ()=> setTheme(true));
+
+/* ============================================================
+   3 · SKILLS — test runner
+   ============================================================ */
+const SKILLS = [
+  {pkg:'golang',              note:'daily driver since 2019 — services, engines, chaincode',          t:'0.42s', lvl:96},
+  {pkg:'grpc_gateway',        note:'one service, two protocols — cut dev effort by 50%',              t:'0.31s', lvl:92},
+  {pkg:'distributed_systems', note:'multi-raft, replication, fault tolerance',                        t:'2.71s', lvl:90},
+  {pkg:'hyperledger_fabric',  note:'permissioned networks & chaincode on the rails',                  t:'0.96s', lvl:88},
+  {pkg:'observability',       note:'OpenTelemetry + Jaeger — if it isn\'t traced, it didn\'t happen', t:'0.58s', lvl:86},
+  {pkg:'kubernetes',          note:'Fabric clusters, CI/CD, ships the same everywhere',               t:'0.64s', lvl:85},
+  {pkg:'postgres',            note:'where the truth lives',                                           t:'0.55s', lvl:84},
+  {pkg:'redis_badger_etcd',   note:'where the speed lives (and the coordination)',                    t:'0.48s', lvl:83},
+  {pkg:'react_node',          note:'reusable components humans actually use',                         t:'0.33s', lvl:80},
+  {pkg:'css_centering',       note:'the eternal struggle',                                            t:'9.99s', lvl:62, flaky:true},
+];
+const rowsEl = $('#testRows');
+SKILLS.forEach((s,i)=>{
+  const r = document.createElement('div');
+  r.className = 'trow'; r.id = 'trow'+i;
+  r.innerHTML = `<span class="st">— idle</span>
+    <span class="nm">Test${s.pkg.split('_').map(w=>w[0].toUpperCase()+w.slice(1)).join('')}<small>${s.note}</small></span>
+    <span class="bar"><i></i></span>
+    <span class="tm">${s.t}</span>`;
+  rowsEl.appendChild(r);
+});
+let testsRunning = false;
+async function runTests(){
+  if (testsRunning) return; testsRunning = true;
+  const btn = $('#runTests'); btn.disabled = true;
+  const foot = $('#testFoot');
+  foot.innerHTML = '<span class="dim">compiling test binary…</span>';
+  // reset
+  SKILLS.forEach((s,i)=>{
+    const r = $('#trow'+i); r.className='trow';
+    r.querySelector('.st').textContent='— idle';
+    r.querySelector('.bar i').style.width='0';
+  });
+  await sleep(500);
+  for (let i=0;i<SKILLS.length;i++){
+    const s = SKILLS[i], r = $('#trow'+i);
+    r.querySelector('.st').textContent = '… RUN';
+    await sleep(RM?0:160);
+    r.querySelector('.bar i').style.width = s.lvl + '%';
+    await sleep(RM?0:420);
+    if (s.flaky){
+      r.className = 'trow fail';
+      r.querySelector('.st').textContent = '✗ FAIL';
+      foot.innerHTML = `<span class="err">--- FAIL: TestCssCentering</span> <span class="dim">(div refused to center. retrying with flexbox…)</span>`;
+      await sleep(RM?0:1100);
+      r.className = 'trow flaky';
+      r.querySelector('.st').textContent = '~ PASS*';
+      r.querySelector('.tm').textContent = '3rd try';
+    } else {
+      r.className = 'trow pass';
+      r.querySelector('.st').textContent = '✓ PASS';
+    }
+  }
+  foot.innerHTML = `<span class="ok">ok</span>&nbsp;&nbsp;github.com/abhishektakale/skills&nbsp;&nbsp;<span class="ok">8 passed</span>, <span class="warn">1 flaky (css, obviously)</span>, 0 failed — <span class="ok">coverage: enough to ship</span>`;
+  btn.disabled = false; testsRunning = false;
+}
+$('#runTests').addEventListener('click', runTests);
+
+/* ============================================================
+   4 · EXPERIENCE — git log
+   ============================================================ */
+const COMMITS = [
+  { hash:'a3f9c2e', refs:[{t:'HEAD → main',head:true},{t:'npci'}], when:'Jul 2023 — present',
+    msg:'<span class="type">feat(payments):</span> senior associate — blockchain',
+    body:'Production-grade Golang services for blockchain and payment infrastructure at NPCI, Mumbai. Core contributor to an in-house distributed database engine — leading a team of four engineers. Shipped gRPC-Gateway integration serving HTTP and gRPC from one codebase, cutting development effort by 50%. Profiling and observability work so bottlenecks die young.',
+    stats:'<span class="plus">+grpc_gateway</span> <span class="minus">−50% dev effort</span> · 4 engineers led · billions of txns in the blast radius' },
+  { hash:'91b04d7', refs:[{t:'chainworks'}], when:'Jan 2023 — Jul 2023', past:true,
+    msg:'<span class="type">feat(blockchain):</span> senior software engineer',
+    body:'Built scalable distributed backends and blockchain solutions in Golang, deployed at NPCI. Implemented gRPC services and interceptors while hunting latency bottlenecks. Led development across Tracksoft, HeftNft, FAW Token Platform and the Ejoining Portal, with reusable Golang / React.js / Node.js components throughout.',
+    stats:'<span class="plus">+4 platforms led</span> <span class="minus">−latency bottlenecks</span> · promoted from within' },
+  { hash:'5d8e1f0', refs:[{t:'chainworks'}], when:'Jul 2019 — Jan 2023', past:true,
+    msg:'<span class="type">feat(backend):</span> associate software development engineer',
+    body:'Backend development for enterprise projects including MahaAayudaan and Tracksoft — scalable modules, API integrations, distributed system components. Three and a half years of learning what production actually means.',
+    stats:'<span class="plus">+3.5 yrs of prod scar tissue</span> <span class="minus">−fear of on-call</span>' },
+  { hash:'7c001ab', refs:[{t:'origin'}], when:'2011 — 2019', past:true,
+    msg:'<span class="type">init:</span> computer engineering — mumbai university',
+    body:'B.E. Computer Engineering, Mumbai University (2014–2019), preceded by a Diploma from MSBTE (2011–2014). Ratnagiri-built, Mumbai-shipped. Where the segfaults began.',
+    stats:'<span class="plus">+∞</span> curiosity · <span class="minus">−0</span> regrets' },
+];
+$('#gitlog').innerHTML = COMMITS.map(c=>`
+  <div class="commit ${c.past?'past':''}">
+    <div class="c-meta">
+      <span class="c-hash">${c.hash}</span>
+      ${c.refs.map(r=>`<span class="c-ref ${r.head?'head':''}">${r.t}</span>`).join('')}
+      <span class="c-when">${c.when}</span>
+    </div>
+    <div class="c-msg">${c.msg}</div>
+    <p class="c-body">${c.body}</p>
+    <div class="c-stats">${c.stats}</div>
+  </div>`).join('');
+
+/* ============================================================
+   5 · PROJECTS — cards
+   ============================================================ */
+const PROJECTS = [
+  { name:'distributed-kv-store', lang:'Go · BadgerDB', desc:'Multi-raft distributed key-value database engine — replication, fault tolerance, BadgerDB storage, traced end-to-end with OpenTelemetry + Jaeger. The cluster below is its miniature: try to break it.', tags:['multi-raft','badgerdb','otel + jaeger','jun 2023 → now'] },
+  { name:'falcon-dashboard', lang:'Go · Gin · K8s', desc:'Open-source deployment helper for managing Hyperledger Fabric networks on Kubernetes. Gin-powered backend with PostgreSQL metadata storage, hardened with unit and integration tests.', tags:['open source','hyperledger fabric','gin + postgres','2024'] },
+  { name:'shorty', lang:'Go · Redis', desc:'URL-shortening service built for low-latency lookups on Golang + Redis. It lives on in this page — type shorty &lt;url&gt; in the terminal above.', tags:['golang','redis','low latency','2022'] },
+  { name:'this-portfolio', lang:'HTML', desc:'One file. Zero frameworks. Hand-rolled terminal, fake raft, real easter eggs. View source — that\'s the repo. Yes, the divs are centered. Eventually.', tags:['vanilla js','single-file','easter eggs'] },
+];
+$('#cards').innerHTML = PROJECTS.map(p=>`
+  <div class="card">
+    <div class="repo"><span class="ic">▣</span> abhishek / <b>${p.name}</b></div>
+    <p>${p.desc}</p>
+    <div class="meta">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+    <div class="lang"><i></i>${p.lang}</div>
+  </div>`).join('');
+
+/* ============================================================
+   6 · KV CLUSTER — the toy that bites back
+   ============================================================ */
+const cluster = {
+  nodes: [
+    {id:'node-1', role:'leader',   alive:true, data:{}},
+    {id:'node-2', role:'follower', alive:true, data:{}},
+    {id:'node-3', role:'follower', alive:true, data:{}},
+  ],
+  term: 4,
+};
+const nodesEl = $('#nodes'), kvlog = $('#kvlog'), kvIn = $('#kvcmd');
+
+function klog(html, cls=''){
+  const d = document.createElement('div');
+  d.innerHTML = `<span class="dim">[t${cluster.term}]</span> ` + html;
+  if (cls) d.className = cls;
+  kvlog.appendChild(d); kvlog.scrollTop = kvlog.scrollHeight;
+}
+function renderCluster(pulseIds=[]){
+  nodesEl.innerHTML = cluster.nodes.map(n=>{
+    const entries = Object.entries(n.data);
+    return `<div class="node ${n.alive ? n.role : 'dead'} ${pulseIds.includes(n.id)?'pulse':''}" id="${n.id}">
+      <div class="n-head"><span class="id">▢ ${n.id}</span>
+        <span class="n-role">${n.alive ? n.role : 'down'}</span></div>
+      <div class="n-data">${
+        !n.alive ? '<span class="empty">unreachable — no heartbeat</span>'
+        : entries.length ? entries.map(([k,v])=>`<div class="kvrow"><span class="k">${esc(k)}</span><span class="dim">→</span><span class="v">${esc(v)}</span></div>`).join('')
+        : '<span class="empty">store empty — try SET lang go</span>'
+      }</div>
+    </div>`;
+  }).join('');
+}
+function leader(){ return cluster.nodes.find(n=>n.alive && n.role==='leader'); }
+
+async function kvCommand(raw){
+  const m = raw.trim().match(/^(\w+)(?:\s+(\S+))?(?:\s+(.+))?$/);
+  if (!m){ klog('<span class="err">parse error.</span> usage: SET k v · GET k · DEL k'); return; }
+  const [,op,k,v] = m, OP = op.toUpperCase();
+  const ld = leader();
+  if (!ld){ klog('<span class="err">no leader — cluster unavailable.</span> election in progress or everyone is dead. try ↻ revive.'); return; }
+
+  if (OP==='SET'){
+    if (!k || v===undefined){ klog('usage: <span class="hl">SET key value</span>'); return; }
+    ld.data[k]=v; renderCluster([ld.id]);
+    klog(`<span class="hl">${ld.id}</span> accepted write <span class="ok">${esc(k)}=${esc(v)}</span> — appending to log…`);
+    await sleep(420);
+    const followers = cluster.nodes.filter(n=>n.alive && n.role==='follower');
+    followers.forEach(f=> f.data[k]=v);
+    renderCluster(followers.map(f=>f.id));
+    klog(`replicated to ${followers.length}/${cluster.nodes.filter(n=>n.alive).length-1} followers — <span class="ok">committed ✓</span>${followers.length<2?' <span class="warn">(degraded cluster, but quorum holds)</span>':''}`);
+  } else if (OP==='GET'){
+    if (!k){ klog('usage: <span class="hl">GET key</span>'); return; }
+    const val = ld.data[k];
+    klog(val!==undefined ? `<span class="hl">${ld.id}</span> → ${esc(k)} = <span class="ok">"${esc(val)}"</span>` : `<span class="warn">(nil)</span> — key <span class="hl">${esc(k)}</span> not found`);
+    renderCluster([ld.id]);
+  } else if (OP==='DEL'){
+    if (!k){ klog('usage: <span class="hl">DEL key</span>'); return; }
+    let existed = k in ld.data;
+    cluster.nodes.forEach(n=>{ if(n.alive) delete n.data[k]; });
+    renderCluster(cluster.nodes.filter(n=>n.alive).map(n=>n.id));
+    klog(existed ? `deleted <span class="hl">${esc(k)}</span> across cluster — <span class="ok">tombstoned ✓</span>` : `<span class="warn">(nil)</span> — nothing to delete`);
+  } else if (OP==='KEYS'){
+    klog(`keys: ${Object.keys(ld.data).map(x=>`<span class="hl">${esc(x)}</span>`).join(', ') || '<span class="warn">(none)</span>'}`);
+  } else {
+    klog(`<span class="err">unknown op:</span> ${esc(OP)} — supported: SET · GET · DEL · KEYS`);
+  }
+}
+kvIn.addEventListener('keydown', e=>{ if(e.key==='Enter'){ kvCommand(kvIn.value); kvIn.value=''; } });
+
+$('#killLeader').addEventListener('click', async ()=>{
+  const ld = leader();
+  if (!ld){ klog('<span class="warn">there is no leader to kill. chaos has already won.</span>'); return; }
+  ld.alive = false; ld.role='follower';
+  renderCluster();
+  klog(`<span class="err">⚡ ${ld.id} terminated.</span> heartbeats stopped. followers getting nervous…`);
+  await sleep(900);
+  const candidates = cluster.nodes.filter(n=>n.alive);
+  if (!candidates.length){
+    klog('<span class="err">all nodes down. cluster offline.</span> congratulations, you have achieved CAP theorem: the bad ending. press ↻');
+    return;
+  }
+  cluster.term++;
+  const winner = candidates[Math.floor(Math.random()*candidates.length)];
+  klog(`<span class="warn">election timeout</span> — <span class="hl">${winner.id}</span> requests votes for term ${cluster.term}…`);
+  await sleep(700);
+  winner.role='leader';
+  renderCluster([winner.id]);
+  klog(`<span class="ok">👑 ${winner.id} elected leader</span> (${candidates.length}/${candidates.length} votes, term ${cluster.term}). data intact. writes resume. <span class="dim">this is the whole point.</span>`);
+});
+
+$('#reviveAll').addEventListener('click', async ()=>{
+  const dead = cluster.nodes.filter(n=>!n.alive);
+  if (!dead.length){ klog('<span class="dim">all nodes already healthy. nothing to revive. nice cluster you have there.</span>'); return; }
+  const src = leader() || cluster.nodes.find(n=>n.alive);
+  dead.forEach(n=>{ n.alive=true; n.role='follower'; n.data = src ? {...src.data} : {}; });
+  if (!leader()){ cluster.term++; cluster.nodes[0].role='leader'; klog(`<span class="ok">cold start:</span> ${cluster.nodes[0].id} bootstraps as leader, term ${cluster.term}.`); }
+  renderCluster(dead.map(d=>d.id));
+  klog(`<span class="ok">↻ ${dead.map(d=>d.id).join(', ')} rejoined</span> — snapshot synced from ${src?src.id:'genesis'}. cluster green.`);
+});
+
+renderCluster();
+klog('cluster online — 3 nodes, term 4 · storage: badgerdb <span class="dim">(simulated)</span> · tracing: jaeger <span class="dim">(also simulated)</span>. <span class="hl">node-1</span> leads. write something, then ⚡ the leader.');
+
+/* ============================================================
+   boot it
+   ============================================================ */
+boot();
+</script>
+</body>
+</html>
